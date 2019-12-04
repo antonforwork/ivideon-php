@@ -5,8 +5,8 @@ namespace IVideon\Resources;
 use LazyJsonMapper\LazyJsonMapper;
 
 /**
- * Class Camera
- * @package IVideon\Resources
+ * Class Camera.
+ *
  * @method bool getConnected();
  * @method string getCreatedAt();
  * @method string[] getFeatures();
@@ -23,18 +23,18 @@ use LazyJsonMapper\LazyJsonMapper;
 class Camera extends LazyJsonMapper
 {
     const JSON_PROPERTY_MAP = [
-        'connected' => 'bool',
-        'created_at' => 'string',
-        'features' => 'string[]',
-        'height' => 'int',
-        'id' => 'string',
-        'mode' => 'string',
-        'name' => 'string',
-        'online' => 'bool',
-        'permissions' => 'string[]',
-        'rotate' => 'int',
-        'server' => 'string',
-        'width' => 'int',
+        'connected'     => 'bool',
+        'created_at'    => 'string',
+        'features'      => 'string[]',
+        'height'        => 'int',
+        'id'            => 'string',
+        'mode'          => 'string',
+        'name'          => 'string',
+        'online'        => 'bool',
+        'permissions'   => 'string[]',
+        'rotate'        => 'int',
+        'server'        => 'string',
+        'width'         => 'int',
         'sound_enabled' => 'bool',
     ];
 }
