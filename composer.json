@@ -1,0 +1,14 @@
+{
+    "name": "antonforwork/ivideon-php",
+    "description": "IVideon",
+    "type": "library",
+    "authors": [
+        {
+            "name": "antonforwork",
+            "email": "me@anton.in.ua"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.4"
+    }
+}
