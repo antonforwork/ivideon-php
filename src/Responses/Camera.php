@@ -1,6 +1,6 @@
 <?php
 
-namespace IVideon\Resources;
+namespace IVideon\Response;
 
 use LazyJsonMapper\LazyJsonMapper;
 
