@@ -1,14 +1,23 @@
 {
-    "name": "antonforwork/ivideon-php",
-    "description": "IVideon",
-    "type": "library",
-    "authors": [
-        {
-            "name": "antonforwork",
-            "email": "me@anton.in.ua"
-        }
-    ],
-    "require": {
-        "guzzlehttp/guzzle": "^6.4"
+  "name": "antonforwork/ivideon-php",
+  "description": "IVideon",
+  "type": "library",
+  "keywords": [
+    "ivideon"
+  ],
+  "authors": [
+    {
+      "name": "antonforwork",
+      "email": "me@anton.in.ua"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "IVideon\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.2",
+    "guzzlehttp/guzzle": "^6.4"
+  }
 }
