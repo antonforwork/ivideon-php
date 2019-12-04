@@ -7,18 +7,18 @@ use LazyJsonMapper\LazyJsonMapper;
 /**
  * Class Camera.
  *
- * @method bool getConnected();
- * @method string getCreatedAt();
- * @method string[] getFeatures();
- * @method int getHeight();
- * @method string getId();
- * @method string getName();
- * @method bool getOnline();
- * @method string[] getPermissions();
- * @method int getRotate();
- * @method string getServer();
- * @method int getWidth();
- * @method bool getSoundEnabled();
+ * @method bool getConnected()
+ * @method string getCreatedAt()
+ * @method string[] getFeatures()
+ * @method int getHeight()
+ * @method string getId()
+ * @method string getName()
+ * @method bool getOnline()
+ * @method string[] getPermissions()
+ * @method int getRotate()
+ * @method string getServer()
+ * @method int getWidth()
+ * @method bool getSoundEnabled()
  */
 class Camera extends LazyJsonMapper
 {
