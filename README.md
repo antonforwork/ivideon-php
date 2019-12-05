@@ -61,3 +61,8 @@ foreach ($exports as $export) {
 
 ```
 
+### Delete export file
+```php
+$api->camera->deleteExport($exportId); // bool
+```
+

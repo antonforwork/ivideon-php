@@ -59,6 +59,28 @@ class Camera
     }
 
     /**
+     * Delete export records after downloading.
+     *
+     * @param $exportId
+     *
+     * @return bool
+     */
+    public function deleteExport($exportId)
+    {
+        $response = $this->api->request('POST', 'exported_records/'.$exportId, [
+            'query' => [
+                'op' => 'DELETE',
+            ],
+        ]);
+
+        if (isset($response['success']) && $response['success']) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Create export request.
      *
      * @param $cameraId
