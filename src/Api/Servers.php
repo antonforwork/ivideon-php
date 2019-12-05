@@ -2,6 +2,8 @@
 
 namespace IVideon\Api;
 
+use IVideon\Responses\Server;
+
 class Servers
 {
     /**
@@ -18,7 +20,7 @@ class Servers
      * @param int $limit
      * @param int $skip
      *
-     * @return Responses\Server[]
+     * @return Server[]
      */
     public function getServers($limit = 100, $skip = 0)
     {
