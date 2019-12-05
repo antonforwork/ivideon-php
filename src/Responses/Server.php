@@ -19,6 +19,7 @@ use LazyJsonMapper\LazyJsonMapper;
  * @method string getOwner()
  * @method string getOwnerName()
  * @method string getSoftwareVersion()
+ * @method string getTimezone()
  * @method bool isCameras()
  * @method bool isConnected()
  * @method bool isCreatedAt()
@@ -31,6 +32,7 @@ use LazyJsonMapper\LazyJsonMapper;
  * @method bool isOwner()
  * @method bool isOwnerName()
  * @method bool isSoftwareVersion()
+ * @method bool isTimezone()
  * @method $this setCameras(Camera[] $value)
  * @method $this setConnected(bool $value)
  * @method $this setCreatedAt(string $value)
@@ -43,6 +45,7 @@ use LazyJsonMapper\LazyJsonMapper;
  * @method $this setOwner(string $value)
  * @method $this setOwnerName(string $value)
  * @method $this setSoftwareVersion(string $value)
+ * @method $this setTimezone(string $value)
  * @method $this unsetCameras()
  * @method $this unsetConnected()
  * @method $this unsetCreatedAt()
@@ -55,6 +58,7 @@ use LazyJsonMapper\LazyJsonMapper;
  * @method $this unsetOwner()
  * @method $this unsetOwnerName()
  * @method $this unsetSoftwareVersion()
+ * @method $this unsetTimezone()
  *
  * @property Camera[] $cameras
  * @property bool $connected
@@ -68,6 +72,7 @@ use LazyJsonMapper\LazyJsonMapper;
  * @property string $owner
  * @property string $owner_name
  * @property string $software_version
+ * @property string $timezone
  */
 class Server extends LazyJsonMapper
 {
@@ -84,5 +89,6 @@ class Server extends LazyJsonMapper
         'owner'            => 'string',
         'owner_name'       => 'string',
         'software_version' => 'string',
+        'timezone'         => 'string',
     ];
 }
