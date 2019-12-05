@@ -7,7 +7,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use IVideon\Constants;
-use IVideon\Exceptions\ExportRequestFailed;
+use IVideon\Exceptions\ExportRequestFailedException;
 use IVideon\Responses\ExportResultSummary;
 use IVideon\Responses\Exports;
 
@@ -82,7 +82,7 @@ class Camera
         ]);
 
         if (isset($response['success']) && $response['success'] == false) {
-            throw new ExportRequestFailed($response['code'] ?? 'no defined error', Constants::EXCEPTION_EXPORT_FAILED);
+            throw new ExportRequestFailedException($response['code'] ?? 'no defined error', Constants::EXCEPTION_EXPORT_FAILED);
         }
 
         return (new ExportResultSummary($response))->getResult();
