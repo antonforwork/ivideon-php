@@ -40,7 +40,7 @@ foreach ($servers as $server) {
  * Please verify that $start, $end in your server timezone
  * 
  * Important! 
- * IVideon not allow to export "empty" videos, when nobody in hole period
+ * IVideon not allow to export "empty" videos, when nobody in all period
  * ExportRequestFailedException will be thrown
  */
 $exportResult = $api->camera->exportMp4($cameraId, $start, $end);
