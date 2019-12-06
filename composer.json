@@ -2,10 +2,10 @@
   "name": "antonforwork/ivideon-php",
   "description": "IVideon",
   "type": "library",
-  "version": "1.0.1",
   "keywords": [
     "ivideon"
   ],
+  "license": "GPL-3.0-only",
   "authors": [
     {
       "name": "antonforwork",
