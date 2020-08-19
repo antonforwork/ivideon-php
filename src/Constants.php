@@ -4,9 +4,9 @@ namespace IVideon;
 
 class Constants
 {
-    const HTTPCLIENT_USERAGENT = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36';
+    const HTTPCLIENT_USERAGENT = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36';
 
-    const ENDPOINT_LOGIN = 'https://ru.ivideon.com/my/service/login';
+    const ENDPOINT_LOGIN = 'https://my.ivideon.com/service/login';
 
     const EXCEPTION_INVALID_LOGIN = 1;
     const EXCEPTION_INVALID_PASSWORD = 2;
