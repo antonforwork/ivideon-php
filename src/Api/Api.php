@@ -78,9 +78,9 @@ class Api
     protected function buildClient()
     {
         return new Client([
-            'base_uri' => $this->account->getUserApiUrl(),
-            'headers'  => [
-                'Accept'     => 'application/json',
+            'base_uri' => 'https://' . $this->account->getUserApiUrl(),
+            'headers' => [
+                'Accept' => 'application/json',
                 'User-Agent' => Constants::HTTPCLIENT_USERAGENT,
             ],
         ]);

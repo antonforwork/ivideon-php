@@ -31,27 +31,24 @@ class WebFlow extends AbstractFlow
         if (!empty($account->getAccessToken()) && !$forceLogin) {
             return $this;
         }
-        // step 1: Get login page for CSRF token
-        $loginPageRequest = $this->httpClient->request('GET', Constants::ENDPOINT_LOGIN);
-        $loginPageHtml = $loginPageRequest->getBody()->getContents();
-        preg_match('/<input type="hidden" value="(.*?)" name="CSRF_TOKEN"/ims', $loginPageHtml, $regexp);
-        if (empty($regexp) || !isset($regexp[1])) {
-            throw new LoginException('no csrf token found on login page', Constants::EXCEPTION_LOGIN_CSRF);
-        }
         // step 2: Build post request
         $postVars = [];
-        $postVars['CSRF_TOKEN'] = $regexp[1];
-        $postVars['LoginForm'] = [
-            'username' => $account->getLogin(),
-            'password' => $account->getPassword(),
-        ];
+        $postVars['grant_type'] = 'password';
+        $postVars['client_version'] = Constants::CLIENT_VERSION;
+        $postVars['device_type'] = Constants::HTTPCLIENT_USERAGENT;
+        $postVars['username'] = $account->getLogin();
+        $postVars['password'] = $account->getPassword();
+        $postVars['trusted_device'] = true;
+
         $redirectedPageRequest = $this->httpClient
             ->request('POST', Constants::ENDPOINT_LOGIN,
                 [
                     'form_params' => $postVars,
                     'headers'     => [
+                        'Authorization'=> 'Basic '.base64_encode('web-client'),
                         'Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
                         'Accept-Language' => 'ru',
+                        'User-Agent'=> Constants::HTTPCLIENT_USERAGENT,
                         'Referer'         => Constants::ENDPOINT_LOGIN,
                     ],
                 ]);
@@ -59,25 +56,16 @@ class WebFlow extends AbstractFlow
         // get js config object
         $regexp = null;
 
-        $redirectedPageContent = $redirectedPageRequest->getBody()->getContents();
-        preg_match('/var config = (.*?);\n/ism', $redirectedPageContent, $regexp);
-        if (!isset($regexp[1])) {
-            throw new LoginException('unable to read userApiUrl', Constants::EXCEPTION_LOGIN_CONFIG);
-        }
-        $config = @\json_decode($regexp[1]);
-        if (empty($config) || !isset($config->openApi)) {
-            throw new LoginException('unable to parse object or openApi prop not exists', Constants::EXCEPTION_LOGIN_CONFIG);
+        $jsonBody = $redirectedPageRequest->getBody()->getContents();
+
+        $json = json_decode($jsonBody);
+
+        if(!isset($json->owner_id)){
+            throw new LoginException('unable to find owner_id, probably incorrect l/p', Constants::EXCEPTION_INVALID_LOGIN);
         }
 
-        $openApi = $config->openApi;
-        $account->setAccessToken($openApi->userAccessToken);
-        $account->setUserApiUrl($openApi->userUrl);
-
-        $regexp = null;
-        preg_match('/var userId = (.*?);\n/ism', $redirectedPageContent, $regexp);
-        if (!isset($regexp[1])) {
-            throw new LoginException('unable to read userId', Constants::EXCEPTION_LOGIN_USERID);
-        }
-        $account->setUserId($regexp[1]);
+        $account->setAccessToken($json->access_token);
+        $account->setUserApiUrl('https://'.$json->api_host);
+        $account->setUserId($json->owner_id);
     }
 }
