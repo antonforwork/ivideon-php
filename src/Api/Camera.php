@@ -119,15 +119,25 @@ class Camera
      * @param   int       $skip
      * @param   int|null  $from  Unix timestamp in server timezone
      * @param   int|null  $to    Unix timestamp in server timezone
+     * @param   array     $camera_ids
      *
-     * @return ExportResult[]
+     * @return ExportResult
      */
-    public function getExports(int $limit = 100, int $skip = 0, int $from = NULL, int $to = NULL)
+    public function getExports(int $limit = 100, int $skip = 0, int $from = NULL, int $to = NULL, array $camera_ids = [])
     {
         $json = [
             'limit' => $limit,
             'skip'  => $skip,
         ];
+
+        if(count($camera_ids) > 0) {
+            $json['sources'] = array_map(function (string $id) {
+                return [
+                    'id' => $id,
+                    'type' => 'camera'
+                ];
+            }, $camera_ids);
+        }
 
         if(!is_null($from)) {
             $json['timeframe_since'] = $from;
