@@ -49,7 +49,7 @@ $exportId = $exportResult->getId();
 
 ### Get all exports
 ```php
-$exports = $api->camera->getExports();
+$exports = $api->camera->getExports(1674055355, 1674155355);
 foreach ($exports as $export) {
     echo $export->getId() . ' = ' . $export->getStatus();
 
