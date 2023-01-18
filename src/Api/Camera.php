@@ -115,25 +115,33 @@ class Camera
     }
 
     /**
-     * @param int $from get timestamp
-     * @param int $to get timestamp
-     * @param int $limit
-     * @param int $skip
+     * @param   int       $limit
+     * @param   int       $skip
+     * @param   int|null  $from  Unix timestamp in server timezone
+     * @param   int|null  $to    Unix timestamp in server timezone
      *
-     * @return \IVideon\Responses\ExportResult[]
+     * @return ExportResult[]
      */
-    public function getExports(int $from, int $to, int $limit = 100, int $skip = 0)
+    public function getExports(int $limit = 100, int $skip = 0, int $from = NULL, int $to = NULL)
     {
+        $json = [
+            'limit' => $limit,
+            'skip'  => $skip,
+        ];
+
+        if(!is_null($from)) {
+            $json['timeframe_since'] = $from;
+        }
+
+        if(!is_null($to)) {
+            $json['timeframe_until'] = $to;
+        }
+
         $response = $this->api->request('POST', 'exported_records', [
             'query' => [
                 'op' => 'FIND',
             ],
-            'json' => [
-                'timeframe_since' => $from,
-                'timeframe_until' => $to,
-                'limit' => $limit,
-                'skip'  => $skip,
-            ],
+            'json' => $json,
         ]);
 
         return (new Exports($response))->getResult()->getItems();
