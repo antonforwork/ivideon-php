@@ -121,7 +121,7 @@ class Camera
      * @param   int|null  $to    Unix timestamp in server timezone
      * @param   array     $camera_ids
      *
-     * @return ExportResult
+     * @return ExportResult[]
      */
     public function getExports(int $limit = 100, int $skip = 0, int $from = NULL, int $to = NULL, array $camera_ids = [])
     {
