@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use IVideon\Constants;
 use IVideon\Exceptions\ExportRequestFailedException;
+use IVideon\Responses\ExportResult;
 use IVideon\Responses\ExportResultSummary;
 use IVideon\Responses\Exports;
 
@@ -84,8 +85,11 @@ class Camera
      * Create export request.
      *
      * @param $cameraId
-     * @param $start - Unix timestamp in server timezone
-     * @param $end - Unix timestamp in server timezone
+     * @param $start  - Unix timestamp in server timezone
+     * @param $end    - Unix timestamp in server timezone
+     *
+     * @return ExportResult
+     * @throws ExportRequestFailedException
      */
     public function exportMp4($cameraId, $start, $end)
     {
@@ -111,18 +115,22 @@ class Camera
     }
 
     /**
-     * @param $limit
-     * @param $skip
+     * @param int $from get timestamp
+     * @param int $to get timestamp
+     * @param int $limit
+     * @param int $skip
      *
      * @return \IVideon\Responses\ExportResult[]
      */
-    public function getExports($limit = 100, $skip = 0)
+    public function getExports(int $from, int $to, int $limit = 100, int $skip = 0)
     {
         $response = $this->api->request('POST', 'exported_records', [
             'query' => [
                 'op' => 'FIND',
             ],
             'json' => [
+                'timeframe_since' => $from,
+                'timeframe_until' => $to,
                 'limit' => $limit,
                 'skip'  => $skip,
             ],
