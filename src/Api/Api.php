@@ -64,17 +64,30 @@ class Api
         $options['query']['access_token'] = $this->account->getAccessToken();
 
         try {
-            $response = $this->buildClient()->request($method, $uri, $options);
+            $client = $this->buildClient();
+            $requestOptions = $options;
+
+            if (array_key_exists('handler', $requestOptions)) {
+                if ($requestOptions['handler'] !== null) {
+                    $config = $client->getConfig();
+                    $config['handler'] = $requestOptions['handler'];
+                    $client = new Client($config);
+                }
+
+                unset($requestOptions['handler']);
+            }
+
+            $response = $client->request($method, $uri, $requestOptions);
+
+            // Export's custom stack returns HTTP errors as JSON instead of throwing.
+            if ($response->getStatusCode() === 401 && !$this->triedRelogin) {
+                return $this->retryUnauthorized($method, $uri, $options);
+            }
 
             return json_decode($response->getBody()->getContents(), true);
         } catch (ClientException $exception) {
             if ($exception->getCode() == 401 && !$this->triedRelogin) {
-                // unauth
-                // token invalid, try to re-login and re-try request
-                $this->triedRelogin = true;
-                $this->flow->login($this->account, true);
-
-                return $this->request($method, $uri, $options);
+                return $this->retryUnauthorized($method, $uri, $options);
             }
 
             throw $exception;
@@ -93,5 +106,13 @@ class Api
                 'User-Agent' => Constants::HTTPCLIENT_USERAGENT,
             ],
         ]);
+    }
+
+    private function retryUnauthorized(string $method, string $uri, array $options): ?array
+    {
+        $this->triedRelogin = true;
+        $this->flow->login($this->account, true);
+
+        return $this->request($method, $uri, $options);
     }
 }

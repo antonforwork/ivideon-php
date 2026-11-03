@@ -17,7 +17,7 @@ class WebFlow extends AbstractFlow
             'cookies' => CookieJar::fromArray(
                 [
                     'ivideon-preferredCdn' => 'https%3A//static.iv-cdn.com',
-                    'ivideon-lid'          => time(),
+                    'ivideon-lid'          => (string) time(),
                 ],
                 '.ivideon.com'),
             'headers' => [

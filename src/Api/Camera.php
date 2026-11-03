@@ -45,6 +45,7 @@ class Camera
                 Request $request,
                 array $options
             ) use ($handler, $cameraId, $query) {
+                $query['access_token'] = $this->api->getAccount()->getAccessToken();
                 $parts = [
                     'scheme' => parse_url($this->api->getAccount()->getUserApiUrl(), PHP_URL_SCHEME),
                     'host'   => parse_url($this->api->getAccount()->getUserApiUrl(), PHP_URL_HOST),
@@ -98,7 +99,6 @@ class Camera
         $handler->setHandler(new CurlHandler());
         $handler->push($this->buildDirtyRequest($cameraId, [
             'op'           => 'EXPORT',
-            'access_token' => $this->api->getAccount()->getAccessToken(),
         ]));
 
         $response = $this->api->request('POST', 'cameras/'.urlencode($cameraId).'/archive?', [
@@ -126,7 +126,7 @@ class Camera
      * @return ExportResult[]
      * @throws GuzzleException
      */
-    public function getExports(int $limit = 100, int $skip = 0, int $from = NULL, int $to = NULL, array $camera_ids = []): array
+    public function getExports(int $limit = 100, int $skip = 0, ?int $from = null, ?int $to = null, array $camera_ids = []): array
     {
         $json = [
             'limit' => $limit,
